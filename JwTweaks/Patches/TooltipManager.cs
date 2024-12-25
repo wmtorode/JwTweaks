@@ -7,6 +7,12 @@ namespace JwTweaks.Patches;
 [HarmonyPatch(typeof(TooltipManager), "SetActiveTooltip")]
 public static class TooltipManager_SetActiveTooltip
 {
+
+    static bool Prepare()
+    {
+        return JTCore.settings.ShowTooltips;
+    }
+    
     private static List<string> components = new List<string>()
     {
         "UpgradeDef",
