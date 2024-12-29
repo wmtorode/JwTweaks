@@ -10,7 +10,7 @@ namespace JwTweaks.Patches;
 public static class Serialization_PutByteArray
 {
     
-    public static bool Prepare() => JTCore.settings.ImprovedSaveSeriallization;
+    public static bool Prepare() => JTCore.settings.ImprovedSaveSerialization;
     
     public static void Prefix(ref bool __runOriginal, byte[] value, byte[] bytes, ref int offset, int size)
     {
@@ -37,7 +37,7 @@ public static class Serialization_PutByteArray
 public static class Serialization_GetByteArray
 {
     
-    public static bool Prepare() => JTCore.settings.ImprovedSaveSeriallization;
+    public static bool Prepare() => JTCore.settings.ImprovedSaveSerialization;
     
     public static void Prefix(ref bool __runOriginal, byte[] bytes, ref int offset, int size, ref byte[] __result)
     {
@@ -89,7 +89,7 @@ public static class Serialization_GetByteArray
 public static class Serialization_PeekByteArrayLength
 {
     
-    public static bool Prepare() => JTCore.settings.ImprovedSaveSeriallization;
+    public static bool Prepare() => JTCore.settings.ImprovedSaveSerialization;
     
     public static void Prefix(ref bool __runOriginal, byte[] bytes, ref int offset, int size, ref int __result)
     {

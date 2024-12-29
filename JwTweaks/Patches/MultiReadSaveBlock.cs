@@ -13,7 +13,7 @@ namespace JwTweaks.Patches;
 public static class MultiReadSaveBlockGameInstanceSave_MetaDataArraySizeReadAmount
 {
         
-    public static bool Prepare() => JTCore.settings.ImprovedSaveSeriallization;
+    public static bool Prepare() => JTCore.settings.ImprovedSaveSerialization;
 
     public static void Prefix(ref bool __runOriginal, MultiReadSaveBlock<GameInstanceSave> __instance,  ref int __result)
     {
@@ -32,7 +32,7 @@ public static class MultiReadSaveBlockGameInstanceSave_MetaDataArraySizeReadAmou
 public static class MultiReadSaveBlockGameInstanceSave_Reset
 {
         
-    public static bool Prepare() => JTCore.settings.ImprovedSaveSeriallization;
+    public static bool Prepare() => JTCore.settings.ImprovedSaveSerialization;
 
     public static void Prefix(ref bool __runOriginal, MultiReadSaveBlock<GameInstanceSave> __instance)
     {

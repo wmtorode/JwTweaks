@@ -12,7 +12,7 @@ namespace JwTweaks.Patches
     public static class SaveBlockGameInstanceSave__ToBlockBytes
     {
         
-        public static bool Prepare() => JTCore.settings.ImprovedSaveSeriallization;
+        public static bool Prepare() => JTCore.settings.ImprovedSaveSerialization;
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
@@ -34,7 +34,7 @@ namespace JwTweaks.Patches
     public static class SaveBlockGameInstanceSave_GetFinalBlockLength
     {
         
-        public static bool Prepare() => JTCore.settings.ImprovedSaveSeriallization;
+        public static bool Prepare() => JTCore.settings.ImprovedSaveSerialization;
 
         public static void Prefix(ref bool __runOriginal, byte[] metaDataBytes, byte[] targetBytes, ref int __result)
         {
