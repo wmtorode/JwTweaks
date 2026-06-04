@@ -12,7 +12,7 @@ namespace CustomBlockTest.Patches
         public static void Postfix(SimGameState __instance)
         {
             CBTestCore.modLog.Info?.Write("SimGameState Rehydrated, test Data Values:");
-            CBTestCore.testDataSaveBlock.Data.Log(CBTestCore.modLog);
+            CBTestCore.testData.Log(CBTestCore.modLog);
         }
     }
 
@@ -23,7 +23,7 @@ namespace CustomBlockTest.Patches
         {
             CBTestCore.modLog.Info?.Write("SimGameState Dehyrating, test Data Values:");
             CBTestCore.testData.RandomizeData();
-            CBTestCore.testDataSaveBlock.Data.Log(CBTestCore.modLog);
+            CBTestCore.testData.Log(CBTestCore.modLog);
         }
     }
 }

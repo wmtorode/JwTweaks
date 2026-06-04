@@ -7,3 +7,7 @@
 /JwTweaks/obj/*
 /JwTweaks/directory.build.props
 /JwTweaks/JwTweaks.sln.DotSettings.user
+/CustomBlockTest/.idea/*
+/CustomBlockTest/bin/*
+/CustomBlockTest/obj/*
+/CustomBlockTest/directory.build.props

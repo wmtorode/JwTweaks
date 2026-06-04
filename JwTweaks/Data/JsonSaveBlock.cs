@@ -15,6 +15,11 @@ public class JsonSaveBlock<T>: ICustomSave where T : class
 
     public void LoadData(string data)
     {
-        JsonConvert.PopulateObject(data, Data);
+
+        var settings = new JsonSerializerSettings
+        {
+            ObjectCreationHandling = ObjectCreationHandling.Replace
+        };
+        JsonConvert.PopulateObject(data, Data, settings);
     }
 }

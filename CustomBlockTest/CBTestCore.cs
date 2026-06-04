@@ -13,7 +13,6 @@ namespace CustomBlockTest
         internal static DeferringLogger modLog;
         internal static string modDir;
         internal static TestData testData = new TestData();
-        internal static JsonSaveBlock<TestData> testDataSaveBlock = new JsonSaveBlock<TestData>();
 
         public static void Init(string modDirectory, string settingsJSON)
         {
@@ -23,7 +22,8 @@ namespace CustomBlockTest
             modLog = new DeferringLogger(modDirectory, "CBTest", "CBT", true);
         
             modLog.Info?.Write("CBTest starting");
-            
+
+            JsonSaveBlock<TestData> testDataSaveBlock = new JsonSaveBlock<TestData>();
             testDataSaveBlock.Data = testData;
             SaveSerializationManager.RegisterCustomSaveBlock(testDataSaveBlock, "TestDataBlock");
             
