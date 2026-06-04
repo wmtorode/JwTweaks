@@ -35,6 +35,9 @@
     </PackageReference>
     <Reference Include="Assembly-CSharp">
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>D:\Gog\BATTLETECH\BattleTech_Data\Managed\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="IRBTModUtils">
       <HintPath>..\..\..\BT_Publicized\IRBTModUtils.dll</HintPath>
     </Reference>
