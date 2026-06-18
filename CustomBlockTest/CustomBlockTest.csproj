@@ -1,4 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
+  <Target Name="ValidateBattleTechGameDir" Condition="'$(BattleTechGameDir)' == '' Or !Exists('$(BattleTechGameDir)')">
+    <Error Text="BattleTechGameDir variable not set properly" />
+  </Target>
+
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
         <LangVersion>11</LangVersion>
@@ -10,8 +15,9 @@
         <FileVersion>1.0.0.0</FileVersion>
         <OutputPath>bin\$(Configuration)\</OutputPath>
         <AssemblySearchPaths>
-            $(ReferencePath);
-            {HintPathFromItem};
+          $(ReferencePath);
+          {HintPathFromItem};
+          $(BattleTechGameDir)\BattleTech_Data\Managed
         </AssemblySearchPaths>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,30 +30,46 @@
         <!-- avoids IgnoresAccessChecksToAttribute warnings -->
         <PublicizerRuntimeStrategies>Unsafe</PublicizerRuntimeStrategies>
     </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Krafs.Publicizer" Version="2.2.1" />
-        <Publicize Include="Assembly-CSharp" />
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="HarmonyX" Version="2.10.1">
-            <PrivateAssets>all</PrivateAssets>
-            <ExcludeAssets>runtime</ExcludeAssets>
-        </PackageReference>
-        <Reference Include="Assembly-CSharp">
-        </Reference>
-        <Reference Include="IRBTModUtils">
-            <HintPath>..\..\..\BT_Publicized\IRBTModUtils.dll</HintPath>
-        </Reference>
-        <Reference Include="Newtonsoft.Json">
-        </Reference>
-        <Reference Include="UnityEngine">
-            <HintPath>..\..\..\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\UnityEngine.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine.CoreModule">
-            <HintPath>..\..\..\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-        </Reference>
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\JwTweaks\JwTweaks.csproj" />
-    </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Krafs.Publicizer" Version="2.3.0" />
+    <Publicize Include="Assembly-CSharp;IRBTModUtils" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HarmonyX" Version="2.10.1">
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(BattleTechGameDir)\Mods\.modtek\AssembliesInjected\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>$(BattleTechGameDir)\BattleTech_Data\Managed\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="IRBTModUtils">
+      <HintPath>$(BattleTechGameDir)\Mods\Core\IRBTModUtils\IRBTModUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(BattleTechGameDir)\BattleTech_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(BattleTechGameDir)\BattleTech_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JwTweaks\JwTweaks.csproj" />
+  </ItemGroup>
 </Project>

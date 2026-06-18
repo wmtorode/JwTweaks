@@ -1,4 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Target Name="ValidateBattleTechGameDir" Condition="'$(BattleTechGameDir)' == '' Or !Exists('$(BattleTechGameDir)')">
+    <Error Text="BattleTechGameDir variable not set properly" />
+  </Target>
+
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>11</LangVersion>
@@ -12,6 +17,7 @@
     <AssemblySearchPaths>
       $(ReferencePath);
       {HintPathFromItem};
+      $(BattleTechGameDir)\BattleTech_Data\Managed
     </AssemblySearchPaths>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,30 +30,48 @@
     <!-- avoids IgnoresAccessChecksToAttribute warnings -->
     <PublicizerRuntimeStrategies>Unsafe</PublicizerRuntimeStrategies>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Krafs.Publicizer" Version="2.2.1" />
-    <Publicize Include="Assembly-CSharp" />
+    <PackageReference Include="Krafs.Publicizer" Version="2.3.0" />
+    <Publicize Include="Assembly-CSharp;IRBTModUtils" />
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="HarmonyX" Version="2.10.1">
       <PrivateAssets>all</PrivateAssets>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <Reference Include="Assembly-CSharp">
+      <HintPath>$(BattleTechGameDir)\Mods\.modtek\AssembliesInjected\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
-      <HintPath>D:\Gog\BATTLETECH\BattleTech_Data\Managed\Ionic.Zip.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)\BattleTech_Data\Managed\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="IRBTModUtils">
-      <HintPath>..\..\..\BT_Publicized\IRBTModUtils.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)\Mods\Core\IRBTModUtils\IRBTModUtils.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(BattleTechGameDir)\BattleTech_Data\Managed\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression">
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)\BattleTech_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)\BattleTech_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <Target Name="AfterBuildMigrated" AfterTargets="CopyFilesToOutputDirectory">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BattleTechGameDir)\Mods\Core\JWTweaks" Condition="'$(BattleTechGameDir)' != '' And Exists('$(BattleTechGameDir)\Mods\Core\JWTweaks')" />
+  </Target>  
 </Project>
