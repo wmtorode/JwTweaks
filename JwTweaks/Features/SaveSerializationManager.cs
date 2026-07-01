@@ -45,6 +45,11 @@ public class SaveSerializationManager
 
     public static void RegisterCustomSaveBlock(ICustomSave customSave, string blockName = null)
     {
+        if (!JTCore.settings.CustomSaveBlocks)
+        {
+            throw new Exception($"CustomSaveBlocks feature is disabled, but blockName: {blockName} attempted to register. This will likely break the mod registering this block!");
+        }
+
         var name = blockName ?? customSave.BlockName;
         
         if (_customSaveBlocks.ContainsKey(name))
@@ -64,6 +69,7 @@ public class SaveSerializationManager
         var saveData = new Dictionary<String, String>();
         foreach (var customSave in _customSaveBlocks)
         {
+            JTCore.modLog.Info?.Write($"Saving customData block: {customSave.Key}");
             saveData.Add(customSave.Key, customSave.Value.SaveData());
         }
 
@@ -108,6 +114,7 @@ public class SaveSerializationManager
         {
             if (_customSaveBlocks.ContainsKey(block.Key))
             {
+                JTCore.modLog.Debug?.Write($"Loading block registered with key: {block.Key}");
                 _customSaveBlocks[block.Key].LoadData(block.Value);
             }
             else if (persistMissing)
