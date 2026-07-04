@@ -11,3 +11,5 @@
 /CustomBlockTest/bin/*
 /CustomBlockTest/obj/*
 /CustomBlockTest/directory.build.props
+Directory.Build.Props
+.vs/*
