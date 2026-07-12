@@ -128,6 +128,7 @@ namespace JwTweaks.Patches
             try
             {
                 __instance.ProcessFileSignature(blockBytes);
+                __instance.ProcessVersion(blockBytes);
                 __instance.ProcessType(blockBytes);
                 byte[] metaDataHash = __instance.serializationStream.GetByteArray();
                 byte[] gameDataHash = __instance.serializationStream.GetByteArray();
@@ -152,13 +153,18 @@ namespace JwTweaks.Patches
                 if (!__instance.CompareHash(gameDataHash, md5Hash2))
                     throw new SaveBlockException(SaveBlockError.CORRUPT_FILE, "Bad target hash.");
                 SerializationTarget target2 = ~SerializationTarget.MetaData & __instance.target;
-                
-                byte[] customBlockHash = __instance.serializationStream.GetByteArray();
-                byte[] customBlockData = __instance.serializationStream.GetByteArray();
-                byte[] md5Hash3 = CryptoUtil.GetMD5Hash(customBlockData);
-                if (!__instance.CompareHash(customBlockHash, md5Hash3))
-                    throw new SaveBlockException(SaveBlockError.CORRUPT_FILE, "Bad custom block hash.");
-                SaveSerializationManager.LoadCustomSaveBlocks(customBlockData);
+
+                // guard if old save format was being loaded
+                if (__instance.version == 3)
+                {
+                    byte[] customBlockHash = __instance.serializationStream.GetByteArray();
+                    byte[] customBlockData = __instance.serializationStream.GetByteArray();
+                    byte[] md5Hash3 = CryptoUtil.GetMD5Hash(customBlockData);
+                    if (!__instance.CompareHash(customBlockHash, md5Hash3))
+                        throw new SaveBlockException(SaveBlockError.CORRUPT_FILE, "Bad custom block hash.");
+                    SaveSerializationManager.LoadCustomSaveBlocks(customBlockData);
+                }
+
                 __result = __instance.Deserialize(gameData, target2, TargetMaskOperation.HAS_ANY, existingObject, true);
                 
                 
