@@ -25,6 +25,8 @@ public class JTCore
         modLog = new DeferringLogger(modDirectory, "JwTweaks", "JTC", settings.Debug);
         
         modLog.Info?.Write("JwTweaks starting");
+        modLog.Info?.Write($"Save V2: {settings.ImprovedSaveSerialization}");
+        modLog.Info?.Write($"Save V3: {settings.CustomSaveBlocks}");
         
 
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "ca.jwolf.JwTweaks");
