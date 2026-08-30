@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BattleTech;
 using BattleTech.Framework;
 using BattleTech.Save;
@@ -49,5 +50,47 @@ namespace JwTweaks.Patches;
             catch (Exception e) {
                 JTCore.modLog.Error?.Write(e);
             }
+        }
+    }
+    
+    [HarmonyPatch(typeof(SimGameState), "GetFilteredComparisons")]
+    public static class SimGameState_GetFilteredComparisons {
+        
+        
+        public static bool Prepare() => JTCore.settings.EnhancedContractRequirements;
+        
+        static void Prefix(ref bool __runOriginal, SimGameState __instance, IEnumerable<ComparisonDef> comparisons,
+            Func<ComparisonDef, bool> ComparisonFunc, ref SimGameState.FilteredComparisonResults __result) {
+
+            if (!__runOriginal)
+            {
+                return;
+            }
+
+            __runOriginal = false;
+            __result = ContractRequirementsEnhancer.Instance.GetFilteredComparisons(comparisons, ComparisonFunc, __instance);
+
+        }
+    }
+    
+    [HarmonyPatch(typeof(SimGameState), "GetPotentialFactions")]
+    public static class SimGameState_GetPotentialFactions {
+        
+        
+        public static bool Prepare() => JTCore.settings.EnhancedContractRequirements;
+        
+        static void Prefix(ref bool __runOriginal, SimGameState __instance, StarSystem system,
+            IEnumerable<string> sourceFactions,
+            IEnumerable<ComparisonDef> comparisons,
+            ref List<string> __result) {
+
+            if (!__runOriginal)
+            {
+                return;
+            }
+
+            __runOriginal = false;
+            __result = ContractRequirementsEnhancer.Instance.GetPotentialFactions(system, sourceFactions.ToList(), 
+                comparisons.ToList(), __instance);
         }
     }

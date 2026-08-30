@@ -9,5 +9,6 @@ public class Settings
     public bool ImprovedSaveSerialization = false;
     public bool FixTravelContracts = false;
     public bool CustomSaveBlocks = false;
+    public bool EnhancedContractRequirements = false;
     public SaveBlockSettings SaveBlockSettings = new SaveBlockSettings();
 }
